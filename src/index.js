@@ -2,6 +2,16 @@ const utils = {}
 utils.zh = {
     week: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天']
 }
+utils.interval = (delay = 1000, callback, frequency = 1) => {
+    let count = 0
+    const t = setInterval(() => {
+        count++
+        callback()
+        if (frequency === count) {
+            clearInterval(t)
+        }
+    }, delay)
+}
 utils.diff = (date) => {
     const unix = utils._date.getTime() / 1000
     const _temp = new Date(date)
@@ -20,13 +30,13 @@ utils.diff = (date) => {
             range += i % 2 ? 31 : 30
         }
     }
-    res.day = res.day - (res.year * 366)-range
+    res.day = res.day - (res.year * 366) - range
     diff = diff % 86400;
     res['hour'] = Math.floor((diff / 3600))
     diff %= 3600;
     res['minute'] = Math.floor((diff / 60))
     res['second'] = Math.floor(diff % 60)
-    console.log(res)
+    return res
 }
 utils.lastday = () => {
     const _temp = new Date(utils._date)
